@@ -1,0 +1,71 @@
+/* 淡入淡出 */
+.fade-enter-active,.fade-leave-active {
+	transition: all .5s;
+}
+.fade-enter, .fade-leave-to {
+	opacity: 0;
+}
+
+/* 从左边滑入 */
+.slideL-enter-active,.slideL-leave-active {
+	transition: all .5s;
+}
+.slideL-enter, .slideL-leave-to {
+	transform: translateX(-100%);
+}
+
+/* 从右边滑入 */
+.slideR-enter-active,.slideR-leave-active {
+	transition: all .3s;
+}
+.slideR-enter, .slideR-leave-to {
+	transform: translateX(100%);
+}
+
+/* 从左边弹入 */
+.bounceL-enter-active,.bounceL-leave-active {
+	animation: bounceL .5s;
+}
+.bounceL-enter, .bounceL-leave-to {
+	animation: bounceL .5s reverse;
+}
+@keyframes bounceL {
+  0% {
+      opacity: 0;
+      transform: translateX(-100px);
+  }
+  60% {
+      opacity: 1;
+      transform: translateX(30px);
+  }
+  80% {
+      transform: translateX(-10px);
+  }
+  100% {
+      transform: translateX(0);
+  }
+}
+
+/* 从右边弹入 */
+.bounceR-enter-active,.bounceR-leave-active {
+	animation: bounceR .5s;
+}
+.bounceR-enter, .bounceR-leave-to {
+	animation: bounceR .5s reverse;
+}
+@keyframes bounceR {
+  0% {
+      opacity: 0;
+      transform: translateX(100px);
+  }
+  60% {
+      opacity: 1;
+      transform: translateX(-30px);
+  }
+  80% {
+      transform: translateX(10px);
+  }
+  100% {
+      transform: translateX(0);
+  }
+}
