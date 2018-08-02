@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <router-view/>
+    
   </div>
 </template>
 
@@ -17,5 +18,12 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  width: 100%;
+  background: #F6F8F7;
+}
+.inner-wrap{
+  min-width:990px;
+  max-width: 1190px;
+  margin: 0 auto;
 }
 </style>

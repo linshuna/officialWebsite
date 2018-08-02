@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="banner">
 
     <!--下拉菜单-->
     <el-menu
       :default-active="activeIndex"
-      class="el-menu-demo"
+      class="el-menu-demo inner-wrap"
       mode="horizontal"
-      background-color="#545c64"
+      background-color="#F82501"
       text-color="#fff"
       active-text-color="#ffd04b">
       <el-menu-item index="1">
@@ -19,7 +19,8 @@
         <el-menu-item index="2-3">违章代缴</el-menu-item>
         <el-menu-item index="2-4">紧急救援</el-menu-item>
       </el-submenu>
-      <el-menu-item index="3">服务门店</el-menu-item>
+      <el-menu-item index="3">
+        <router-link to="/ServerStore">服务门店</router-link> </el-menu-item>
       <el-submenu index="4">
         <template slot="title">保养资讯</template>
         <el-menu-item index="4-1">养车干货</el-menu-item>
@@ -47,3 +48,31 @@
 
   }
 </script>
+<style lang="scss" scoped>
+  .banner{
+    width: 100%;
+    height: 41px;
+    background: #F82501;
+  }
+  .el-menu-item{
+    height: 41px;
+    line-height: 41px;
+  }
+ 
+</style>
+<style>
+  .banner .el-menu--horizontal>.el-submenu .el-submenu__title{
+    height: 41px;
+    line-height: 41px;
+  }
+  .el-submenu .el-menu-item{
+    background-color: rgba(0,0,0,.3);
+  }
+  .el-submenu  .el-menu-item.is-active {
+    color: #F82501;
+    background: #FFFFFF;
+  }
+  .el-submenu__title i {
+    color: #ffffff;
+  }
+</style>
