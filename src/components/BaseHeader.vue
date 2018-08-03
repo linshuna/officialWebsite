@@ -22,13 +22,19 @@
       <el-menu-item index="3">
         <router-link to="/ServerStore">服务门店</router-link> </el-menu-item>
       <el-submenu index="4">
-        <template slot="title">保养资讯</template>
+        <template slot="title">
+          <router-link to="/DetailsMaintenance">保养资讯</router-link> 
+        </template>
         <el-menu-item index="4-1">养车干货</el-menu-item>
-        <el-menu-item index="4-2">车主心声</el-menu-item>
+        <el-menu-item index="4-2">
+          <router-link to="/DetailsMaintenance/Aspiration">车主心声</router-link> 
+        </el-menu-item>
         <el-menu-item index="4-3">企业资讯</el-menu-item>
         <el-menu-item index="4-4">客户服务</el-menu-item>
       </el-submenu>
-      <el-menu-item index="5">自助保养</el-menu-item>
+      <el-menu-item index="5">
+        <router-link to="/Maintenance">自助保养</router-link>
+      </el-menu-item>
       <el-menu-item index="6">关于我们</el-menu-item>
       <el-menu-item index="7">
         <router-link to="/NewActivityPage">最新活动</router-link>  

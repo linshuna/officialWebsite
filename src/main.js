@@ -6,6 +6,10 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI)
+//封装地图插件
+import base from '@/utils/base.js'
+Vue.use(base)
+
 
 import axios from './utils/axios'
 Vue.prototype.$http = axios
@@ -22,3 +26,13 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+
+//描述和关键字
+import { description } from '@/utils/api.js'
+let keywordMeta = document.querySelector('meta[name="keywords"]');
+let descriptionMeta = document.querySelector('meta[name="Description"]');
+description().then(res=>{
+  keywordMeta.content = res.keywords
+  descriptionMeta.content = res.description
+})
+

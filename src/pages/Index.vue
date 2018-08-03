@@ -19,9 +19,8 @@
             <base-header activeIndex='1'></base-header>
             <!--轮播图-->
             <el-carousel :interval="5000" arrow="always">
-              <el-carousel-item v-for="(item,index) in 4" :key="item">
-                <img src="../assets/images/banner.png" alt="轮播图"/>
-                <h3>{{ item }}</h3>
+              <el-carousel-item v-for="(item,index) in bannerList">
+                <img :src="item.pic" alt="轮播图"/>
               </el-carousel-item>
             </el-carousel>
           
@@ -36,7 +35,7 @@
       <div class="inner-wrap">
         <div class="new-activity">
           <h1>最新活动</h1>
-          <new-activity :gainDate="new Date()"></new-activity>
+          <new-activity :gainDate="new Date()" :activityMsg="activityMsg"></new-activity>
         </div>
       </div>
     </div>
@@ -131,65 +130,37 @@
                     也为传统汽修门店提供赋能服务
                   </div>
                 </el-tab-pane>
-                <el-tab-pane label="保养资讯" name="second">保养资讯</el-tab-pane>
+                <el-tab-pane label="保养资讯" name="second">
+                  <el-container class="laster-new">
+                    <el-main>
+                      <el-row class="border-top-1px clearFloat" v-for="item in newsCategoryList">
+                        <el-col :span="4">
+                          <img :src="item.pic" alt="广告图片" width="100%"  height="65px"/>
+                        </el-col>
+                        <el-col :span="20">
+                          <div class="title-wrap clearFloat">
+                            <span class="title fl">{{item.title}}</span>
+                            <span class="time fr">{{item.addtime}}</span>
+                          </div>
+                          <div class="set-padding">
+                            {{item.des}}
+                          </div>
+                          <span class="more">MORE ></span>
+                        </el-col>
+                      </el-row>
+                    </el-main>
+                    <el-aside width="200px">
+                      <img :src="newsCategoryTop.pic" alt="广告图片" width="200px" height="200px"/>
+                      <p class="lastFont">{{newsCategoryTop.title}}</p>
+                    </el-aside>
+                  </el-container>
+                </el-tab-pane>
                 <el-tab-pane label="企业文化" name="third">企业文化</el-tab-pane>
               </el-tabs>  
             </el-main>
           </el-container>
           
-          <el-container class="laster-new">
-            <el-main>
-              <el-row class="border-top-1px clearFloat">
-                <el-col :span="4">
-                  <img src="../assets/images/新闻图1.png" alt="广告图片" width="100%"  height="65px"/>
-                </el-col>
-                <el-col :span="20">
-                  <div class="title-wrap clearFloat">
-                    <span class="title fl">引领行业,首家新能源专修旗舰店E店养车石化路店开业</span>
-                    <span class="time fr">2018-07-24</span>
-                  </div>
-                  <div class="set-padding">
-                    发动机阿里看风景的肯德基法兰克打扫房间发动机阿里看风景的肯德基法兰克打扫房间
-                  </div>
-                  <span class="more">MORE ></span>
-                </el-col>
-              </el-row>
-              <el-row class="border-top-1px clearFloat">
-                <el-col :span="4">
-                  <img src="../assets/images/新闻图1.png" alt="广告图片" width="100%"  height="65px"/>
-                </el-col>
-                <el-col :span="20">
-                  <div class="title-wrap clearFloat">
-                    <span class="title fl">引领行业,首家新能源专修旗舰店E店养车石化路店开业</span>
-                    <span class="time fr">2018-07-24</span>
-                  </div>
-                  <div class="set-padding">
-                    发动机阿里看风景的肯德基法兰克打扫房间发动机阿里看风景的肯德基法兰克打扫房间
-                  </div>
-                  <span class="more">MORE ></span>
-                </el-col>
-              </el-row>
-              <el-row class="border-top-1px clearFloat">
-                <el-col :span="4">
-                  <img src="../assets/images/新闻图1.png" alt="广告图片" width="100%"  height="65px"/>
-                </el-col>
-                <el-col :span="20">
-                  <div class="title-wrap clearFloat">
-                    <span class="title fl">引领行业,首家新能源专修旗舰店E店养车石化路店开业</span>
-                    <span class="time fr">2018-07-24</span>
-                  </div>
-                  <div class="set-padding">
-                    发动机阿里看风景的肯德基法兰克打扫房间发动机阿里看风景的肯德基法兰克打扫房间
-                  </div>
-                  <span class="more">MORE ></span>
-                </el-col>
-              </el-row>
-            </el-main>
-            <el-aside width="300px">
-              <img src="../assets/images/大新闻图.png" alt="广告图片" width="300px" height="300px"/>
-              <p class="lastFont">头条</p>
-            </el-aside>
-          </el-container>
+          
           
           
         </div>
@@ -198,17 +169,8 @@
         <div class="recommend-store-wrap">
           <h1>推荐门店</h1>
           <el-row :gutter="18">
-            <el-col :span="6">
-              <commond></commond>
-            </el-col>
-            <el-col :span="6">
-              <commond></commond>
-            </el-col>
-            <el-col :span="6">
-              <commond></commond>
-            </el-col>
-            <el-col :span="6">
-              <commond></commond>
+            <el-col :span="6" v-for="item in shopRecommendList">
+              <commond :recommend="item"></commond>
             </el-col>
           </el-row>
           <!--<el-container class="recommend-store">
@@ -295,6 +257,13 @@
   //评价
   import scrollStar from "@/components/scrollStar"
   import Commond from '@/components/Commond'
+  import { 
+    banner,//轮播图
+    activityLatest,//最新活动
+    carServer,//汽车服务
+    newsCategory,//资讯
+    shop_recommend
+  } from '@/utils/api.js'
   export default {
     
     data() {
@@ -311,6 +280,12 @@
                   {icon: require('../assets/images/checkCarIcon.png'),name: '奥迪'}
                 ],
         activeName: 'first',
+        bannerList: [],
+        activityMsg:{},
+        carServerList: [],
+        newsCategoryTop: {},
+        newsCategoryList:[],
+        shopRecommendList: []
       };
 
     },
@@ -323,14 +298,50 @@
       'commond': Commond
     },
     mounted() {
+      //轮播图
+      this.initBanner()
+      //最新活动
+      this.newActivity()
+      //汽车服务
+      this.carServerInit()
+
+      //推荐门店
+      this.shopRecommend()
     },
     methods: {
       // handleSelect(key, keyPath) {
       //   console.log(key, keyPath);
       // },
-      
-      handleClick(tab, event) {//tab切换
-        console.log(tab, event);
+      initBanner: function(){//轮播图
+        banner().then(res => {
+          this.bannerList = res;
+        })
+      },
+      newActivity: function(){//最新活动
+        activityLatest().then(res => {
+          this.activityMsg = res;
+        })
+      },
+      carServerInit: function(){//汽车服务
+        carServer().then(res => {
+          console.log(res)
+        })
+      },
+      newsCategoryInit: function(id){//新闻资讯
+        newsCategory({category_id:id}).then(res=>{
+          this.newsCategoryTop = res.top
+          this.newsCategoryList = res.news;
+
+        })
+      },
+      shopRecommend: function(){//推荐门店
+        shop_recommend().then(res => {
+          this.shopRecommendList = res;
+        })
+      },
+      handleClick(tab, event) {//tab切换 //新闻资讯
+
+        this.newsCategoryInit(this.index)
       },
       checkCarType: function(){
         
@@ -473,7 +484,8 @@
     padding-right: 30px;
     .about-us-top{
       .el-main{
-        padding: 0;
+        padding-right: 10px;
+        box-sizing: border-box;
       }
     }
     .el-aside{
@@ -495,6 +507,9 @@
     box-sizing: border-box;
     vertical-align: middle;
     margin-top: 30px;
+    .el-aside{
+      text-align: center;
+    }
     .el-row{
       padding: 15px 0;
     }

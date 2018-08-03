@@ -1,31 +1,39 @@
 <template>
   <div class="commond-wrap">
-    <img src="../assets/images/门店1.png" alt="广告图片" width="250px" height="180px"/>
+    <img :src="recommend.pic" alt="广告图片" width="250px" height="180px"/>
     <div class="store-container">
       <div class="set-recommend-title border-bottom-1px">
-        <span>越秀洗车房</span>
-        <img src="../assets/images/navigation-icon.png"/>
+        <span>{{recommend.name}}</span>
+        <img src="../assets/images/navigation-icon.png" @click="openMap(recommend.longitude,recommend.latitude,recommend.dist,recommend.address)"/>
       </div>
       <div class="startCommond">
         <span>评价：</span>
         <el-rate
-          v-model="value5"
+          v-model="recommend.evaluateShow"
           disabled
           show-score
           text-color="#ff9900"
           score-template="{value}">
         </el-rate>
       </div>
-      <p>营业时间：09:00-20:00</p>
-      <p>地址：越秀区</p>
+      <p>营业时间：{{recommend.storeTime}}</p>
+      <p>地址：{{recommend.province}}{{recommend.dist}}{{recommend.city}}{{recommend.address}}</p>
     </div>
   </div>
 </template>
 <script>
   export default { 
+    props: {
+      recommend: {type: Object}
+    },
     data(){
       return {
-        value5: 3.7
+
+      }
+    },
+    methods:{
+      openMap: function(long,lat,dist,address){
+        this.map(long,lat,dist,address) 
       }
     }
   }
@@ -35,6 +43,8 @@
   .commond-wrap{
     max-width: 250px;
     text-align: left;
+    border-radius: 4px 4px 0 0;
+    border: 1px solid #efefef;
     .store-container{
       max-width: 250px;
       background: #fff;
@@ -65,6 +75,7 @@
       display: flex;
       align-items: end;
       width: 20px;
+      transform: scale(0.8);
     }
   }
   .store-container{
@@ -75,6 +86,9 @@
     }
     p{
       line-height: 25px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
   

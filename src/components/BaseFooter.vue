@@ -8,58 +8,10 @@
             <a href="javascript:void(0)">快速链接</a>
           </p>
           <p class="store-name">
-            <span>汽车之家</span>
-            <span>汽配龙</span>
-            <span>镭射眼智能行车记录仪</span>
-            <span>丰途轮毂</span>
-            <span>腾讯汽车</span>
-            <span>新浪汽车</span>
-            <span>网易汽车</span>
-            <span>搜狐汽车</span>
-            <span>易车网</span>
-            <span>爱卡汽车</span>
-            <span>太平洋汽车网</span>
-            <span>百姓网</span>
-            <span>虎扑网</span>
-            <span>TOM汽车</span>
-          </p>
-          <p class="store-name">
-            <span>铁路网上订票官网</span>
-            <span>广州生活服务</span>
-            <span>极限户外-自驾越野</span>
-            <span>汽车图片</span>
-            <span>二手车交易</span>
-            <span>奥迪Q2</span>
-            <span>瓜子二手车</span>
-            <span>消费众测</span>
+            <span v-for="item in linkList"><a :href="item.url">{{item.title}}</a></span>
           </p>
         </div>
-        <!--
-        <div class="copylink">
-          <p class="link-title">
-            <a href="javascript:void(0)">备份链接</a>
-          </p>
-          <el-row>
-            <el-col :span="3"><div class="grid-content bg-purple"> E店保养</div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple-light">E店保养</div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple">E店保养</div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple-light">E店保养</div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple">E店保养</div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple-light">E店保养</div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple">E店保养</div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple-light">E店保养</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="3"><div class="grid-content bg-purple"> E店保养</div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple-light">E店保养</div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple">E店保养</div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple-light">E店保养</div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple">E店保养</div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple-light">E店保养</div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple">E店保养</div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple-light">E店保养</div></el-col>
-          </el-row>
-        </div>-->
+
         <!--轮播图-->
         <el-carousel :interval="5000" arrow="always" height="50px" class="footer-carousel">
           <el-carousel-item v-for="item in 4" :key="item">
@@ -119,6 +71,24 @@
   </div>
   
 </template>
+<script>
+  import { link } from '@/utils/api.js'
+  export default {
+    data(){
+      return {
+        linkList: []
+      }
+    },
+    mounted() {
+      this.$nextTick(function(){
+        link().then(res => {
+          this.linkList = res;
+          console.log(res)
+        })
+      })
+    },
+  }
+</script>
 
 <style lang="scss" scoped>
   .footer{

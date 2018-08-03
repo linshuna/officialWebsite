@@ -7,7 +7,13 @@
       <base-header activeIndex='7'></base-header>
     </el-container>
     <div class="new-wrap">
-      <new-activity :gainDate="date"></new-activity>
+      <div class="inner-wrap">
+        <!--<template v-for="item in activityLatestList">
+          <new-activity :activityMsg="activityLatestList"></new-activity>
+        </template>-->
+        <new-activity :activityMsg="activityLatestList"></new-activity>
+      </div>
+      
     </div>
     
     <base-footer></base-footer>
@@ -22,10 +28,14 @@
   import NewActivity from "@/components/NewActivity"
   //底部
   import BaseFooter from "@/components/BaseFooter"
+   import { 
+    activityLatest,//最新活动
+  } from '@/utils/api.js'
   export default {
     data(){
       return {
-        date: new Date()
+        date: new Date(),
+        activityLatestList: {}
       }
     },
     components:{
@@ -34,10 +44,26 @@
       'new-activity': NewActivity,
       'base-header':BaseHeader
     },
+    mounted() {
+      this.init()
+    },
+    methods:{
+      init: function(){
+        activityLatest().then(res => {
+          this.activityLatestList = res;
+        })
+      }
+    }
   }
 </script>
 <style lang="scss" scoped>
   .new-wrap{
-    margin-top: 30px;
+    padding-top: 30px;
+    width: 100%;
+    background: #fff;
+  }
+  .new-activity-wrap{
+    padding: 10px 0;
+    margin-bottom: 20px;
   }
 </style>
