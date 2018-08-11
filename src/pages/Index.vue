@@ -13,24 +13,24 @@
             <el-input v-model="carplate" placeholder="请输入厂牌" @focus="checked=true"></el-input>
             <el-input v-model="carmodule" placeholder="请输入车牌" @focus="checked=true"></el-input>
             <el-input v-model="carnat" placeholder="请输入车系" @focus="checked=true"></el-input>
-            <el-button type="primary">立即体验</el-button>
+            <el-button type="primary" @click.native="experience">立即体验</el-button>
           </el-aside>
           <el-main>
             <base-header activeIndex='1'></base-header>
-            <!--轮播图-->
-            <el-carousel :interval="5000" arrow="always">
-              <el-carousel-item v-for="(item,index) in bannerList">
-                <img :src="item.pic" alt="轮播图"/>
-              </el-carousel-item>
-            </el-carousel>
+            
           
           </el-main>
         </el-container>
+        <div class="carousel-wrap">
+          <!--轮播图-->
+          <el-carousel :interval="5000" arrow="always">
+            <el-carousel-item v-for="(item,index) in bannerList">
+              <img :src="item.pic" alt="轮播图"/>
+            </el-carousel-item>
+          </el-carousel>
+        </div>
       </div>
       
-      
-      
-    </el-container>
     <div class="set-main-bg">
       <div class="inner-wrap">
         <div class="new-activity">
@@ -39,73 +39,29 @@
         </div>
       </div>
     </div>
+      
+    </el-container>
+    
     <div class="inner-wrap">
       <div class="car-server">
           <h1>汽车服务</h1>
           <el-container>
             <el-aside width="230">
-              <img src="../assets/images/汽车服务.png" alt="广告图片" width="230px" height="410px"/>
+              <img :src="AdList.pic" alt="广告图片" width="230px" height="410px"/>
             </el-aside>
             <el-main>
               <el-row :gutter="22">
-                <el-col :span="6">
-                  <div class="car-server-tip">
-                    <p class="server-first-title">漆面镀晶</p>
-                    <p class="server-second-title">高亮持久不氧化</p>
-                    <img src="../assets/images/镀晶.png" alt="广告图片" width="200px" height="200px"/>
-                  </div>
-                </el-col>
-                <el-col :span="6">
-                  <div class="car-server-tip">
-                    <p class="server-first-title">漆面镀晶</p>
-                    <p class="server-second-title">高亮持久不氧化</p>
-                    <img src="../assets/images/镀晶.png" alt="广告图片" width="200px" height="200px"/>
-                  </div>
-                </el-col>
-                <el-col :span="6">
-                  <div class="car-server-tip">
-                    <p class="server-first-title">漆面镀晶</p>
-                    <p class="server-second-title">高亮持久不氧化</p>
-                    <img src="../assets/images/镀晶.png" alt="广告图片" width="200px" height="200px"/>
-                  </div>
-                </el-col>
-                <el-col :span="6">
-                  <div class="car-server-tip">
-                    <p class="server-first-title">漆面镀晶</p>
-                    <p class="server-second-title">高亮持久不氧化</p>
-                    <img src="../assets/images/镀晶.png" alt="广告图片" width="200px" height="200px"/>
-                  </div>
-                </el-col>
-              </el-row>
-              <el-row :gutter="22">
-                <el-col :span="6">
-                  <div class="car-server-tip">
-                    <p class="server-first-title">漆面镀晶</p>
-                    <p class="server-second-title">高亮持久不氧化</p>
-                    <img src="../assets/images/镀晶.png" alt="广告图片" width="200px" height="200px"/>
-                  </div>
-                </el-col>
-                <el-col :span="6">
-                  <div class="car-server-tip">
-                    <p class="server-first-title">漆面镀晶</p>
-                    <p class="server-second-title">高亮持久不氧化</p>
-                    <img src="../assets/images/镀晶.png" alt="广告图片" width="200px" height="200px"/>
-                  </div>
-                </el-col>
-                <el-col :span="6">
-                  <div class="car-server-tip">
-                    <p class="server-first-title">漆面镀晶</p>
-                    <p class="server-second-title">高亮持久不氧化</p>
-                    <img src="../assets/images/镀晶.png" alt="广告图片" width="200px" height="200px"/>
-                  </div>
-                </el-col>
-                <el-col :span="6">
-                  <div class="car-server-tip">
-                    <p class="server-first-title">漆面镀晶</p>
-                    <p class="server-second-title">高亮持久不氧化</p>
-                    <img src="../assets/images/镀晶.png" alt="广告图片" width="200px" height="200px"/>
-                  </div>
-                </el-col>
+                <ul>
+                  <li v-for="item in carServerList">
+                    <el-col :span="6">
+                      <div class="car-server-tip">
+                        <p class="server-first-title">{{item.title}}</p>
+                        <p class="server-second-title">{{item.des}}</p>
+                        <img :src="item.pic" width="200px" height="200px"/>
+                      </div>
+                    </el-col>
+                  </li>
+                </ul>
               </el-row>
             </el-main>
           </el-container>
@@ -116,12 +72,13 @@
         <div class="about-us inner-wrap">
           <h1>关于我们</h1>
           <el-container class="about-us-top">
-            <el-aside width="300px">
-              <img src="../assets/images/大新闻图.png" alt="广告图片" width="250px" height="250px"/>
+            <el-aside width="0px">
+              <!--< img src="../assets/images/大新闻图.png" alt="广告图片" width="250px" height="250px"/>-->
             </el-aside>
             <el-main>
               <el-tabs v-model="activeName" @tab-click="handleClick">
-                <el-tab-pane label="公司简介" name="first">
+                  <el-tab-pane label="公司简介" name="first">
+                    <router-link to="/Weare">
                   <h2>E位养车是全国第一家汽车后市场用工、管理服务平台</h2>
                   <div class="tabCon">
                     E店养车，互联网养车开创者，中国领先的直营连锁养车平台。车发发以“强大线上平台＋线下连
@@ -129,17 +86,19 @@
                     路虎等36个中高端汽车品牌提供美容、保养、维修、钣喷、保险、车务等一站式汽车服务， 同时
                     也为传统汽修门店提供赋能服务
                   </div>
+                    </router-link>
                 </el-tab-pane>
+
                 <el-tab-pane label="保养资讯" name="second">
                   <el-container class="laster-new">
                     <el-main>
-                      <el-row class="border-top-1px clearFloat" v-for="item in newsCategoryList">
+                      <el-row class="border-bottom-1px clearFloat baomsg" v-for="item in newsCategoryList" @click.native="goNewsDetail(item.id)">
                         <el-col :span="4">
                           <img :src="item.pic" alt="广告图片" width="100%"  height="65px"/>
                         </el-col>
                         <el-col :span="20">
                           <div class="title-wrap clearFloat">
-                            <span class="title fl">{{item.title}}</span>
+                            <!--<span class="title fl">{{item.title}}</span>-->
                             <span class="time fr">{{item.addtime}}</span>
                           </div>
                           <div class="set-padding">
@@ -149,22 +108,48 @@
                         </el-col>
                       </el-row>
                     </el-main>
-                    <el-aside width="200px">
-                      <img :src="newsCategoryTop.pic" alt="广告图片" width="200px" height="200px"/>
-                      <p class="lastFont">{{newsCategoryTop.title}}</p>
+                    <el-aside width="0">
+                      <!--< img :src="newsCategoryTop.pic" alt="广告图片" width="200px" height="200px"/>-->
+                      <!--<p class="lastFont">{{newsCategoryTop.title}}</p >-->
                     </el-aside>
                   </el-container>
                 </el-tab-pane>
-                <el-tab-pane label="企业文化" name="third">企业文化</el-tab-pane>
-              </el-tabs>  
+
+
+                <el-tab-pane label="新闻资讯" name="5">
+                  <!--新闻资讯-->
+                  <el-container class="laster-new">
+                    <el-main>
+                      <el-row class="border-bottom-1px clearFloat newmsg" v-for="item in newsCategoryLists" @click.native="goNewsDetail(item.id)">
+                        <el-col :span="4">
+                          <img :src="item.pic" alt="广告图片" width="100%"  height="65px"/>
+                        </el-col>
+                        <el-col :span="20">
+                          <div class="title-wrap clearFloat">
+                            <!--<span class="title fl">{{item.title}}</span>-->
+                            <span class="time fr">{{item.addtime}}</span>
+                          </div>
+                          <div class="set-padding">
+                            {{item.des}}
+                          </div>
+                          <span class="more">MORE ></span>
+                        </el-col>
+                      </el-row>
+                    </el-main>
+                    <el-aside width="0">
+                      <!--< img :src="newsCategoryTop.pic" alt="广告图片" width="200px" height="200px"/>-->
+                      <!--<p class="lastFont">{{newsCategoryTop.title}}</p >-->
+                    </el-aside>
+                  </el-container>
+                </el-tab-pane>
+              </el-tabs>
             </el-main>
           </el-container>
-          
-          
-          
-          
         </div>
     </div>
+
+    <div class="Advertisement-img" ><img :src="AdLists.pic" alt=""></div>
+    
     <div class="inner-wrap">
         <div class="recommend-store-wrap">
           <h1>推荐门店</h1>
@@ -199,7 +184,7 @@
         
         </div>
     </div>
-
+  <!--
       <div class="mask" v-if="checked">
         <div class="inner-mask">
           <div class="inner-center">
@@ -218,19 +203,34 @@
             <div class="zimu-wrap">
               <span class="hot">热门</span>
               <template v-for="item in zimuArr">
-                <span>{{item}}</span>
+                <span @click="abc(item)">{{item}}</span>
               </template>
             </div>
             <div class="check-car-main">
-              <el-row :gutter="20">
-                <el-col :span="6" v-for="(item,index) in carType" @click.native="checkCarType">
-                  <div class="check-car">
+              <el-row :gutter="20" v-if="active==1">
+                <el-col :span="6" v-for="(item,index) in IndexCarplateList"@click.native="checkCarType(item.carplateid,item.carplate)"  >
+                  <div class="check-car" >
                     <img :src="item.icon" alt="车标" width="20px"/>
-                    <span>{{item.name}}</span>
+                    <span>{{item.carplate}}</span>
+
                   </div>
                 </el-col>
               </el-row>
+              <el-row :gutter="20" v-if="active==2" >
+                <el-col :span="6" v-for="(item,index) in CarmodelList"@click.native="checkCarmodel(item.carmodelid,item.carmodel)">
+                  <div class="check-car" >
+                    <span>{{item.carmodel}}</span>
 
+                  </div>
+                </el-col>
+              </el-row>
+              <el-row :gutter="20" v-if="active==3" >
+                <el-col :span="6" v-for="(item,index) in IndexCarnatList" @click.native="checkCarnar(item.model_name,item.model_id)">
+                  <div class="check-car" >
+                    <span>{{item.model_name}}</span>
+                  </div>
+                </el-col>
+              </el-row>
             </div>
           </div>
           
@@ -239,9 +239,8 @@
         
         
       </div>
-
-    
-
+  -->
+    <brand :checked.sync="checked" @getCarplate="getCarplate" @getCarmodel="getCarmodel" @getCarnat="getCarnat"></brand>
     <base-footer></base-footer>
   </div>
 </template>
@@ -262,18 +261,24 @@
     activityLatest,//最新活动
     carServer,//汽车服务
     newsCategory,//资讯
-    shop_recommend
+    shop_recommend,
+    IndexCarplate,//首页 车品牌
+    IndexCarmodel,
+    IndexCarnat,//首页 车型车系
+    IndexAd,//首页 广告
+    topNewsCategory,//首页 推荐分类
   } from '@/utils/api.js'
+  import brand from "@/components/brand"
   export default {
     
     data() {
       return {
         checked: false,
-        active: 1,
+        // active: 1,
         carplate:'',
         carmodule: '',
         carnat: '',
-        zimuArr: ['A','B','C','D','E','F','G','H','I','J','K','L'],
+        zimuArr: ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'],
         carType:[ {icon: require('../assets/images/checkCarIcon.png'),name: '奥迪'},
                   {icon: require('../assets/images/checkCarIcon.png'),name: '奥迪'},
                   {icon: require('../assets/images/checkCarIcon.png'),name: '奥迪'},
@@ -285,9 +290,16 @@
         carServerList: [],
         newsCategoryTop: {},
         newsCategoryList:[],
-        shopRecommendList: []
-      };
-
+        shopRecommendList: [],
+        AdList:[],
+        AdLists:[],
+        // IndexCarplateList: [],
+        caractive: 1,
+        // CarmodelList:[],
+        // IndexCarnatList: [],
+        newsCategoryLists: [],
+      
+      }
     },
     components:{
       'base-top-header': BaseTopHeader,
@@ -295,7 +307,8 @@
       'new-activity': NewActivity,
       'scroll-star': scrollStar,
       'base-header':BaseHeader,
-      'commond': Commond
+      'commond': Commond,
+      'brand': brand
     },
     mounted() {
       //轮播图
@@ -307,11 +320,24 @@
 
       //推荐门店
       this.shopRecommend()
+      //广告
+      this._IndexAd()
+      // this._IndexCarplate("A")
+      this._topNewsCategory()
     },
     methods: {
       // handleSelect(key, keyPath) {
       //   console.log(key, keyPath);
       // },
+      //立即体验
+      experience(){
+          if(this.model_id){
+
+              this.$router.push({path:'/Maintenance/'+this.model_id})//选中的id 传参
+          }else{
+              alert('请选择车辆')
+          }
+      },
       initBanner: function(){//轮播图
         banner().then(res => {
           this.bannerList = res;
@@ -324,14 +350,30 @@
       },
       carServerInit: function(){//汽车服务
         carServer().then(res => {
-          console.log(res)
+          this.carServerList= res
         })
       },
-      newsCategoryInit: function(id){//新闻资讯
-        newsCategory({category_id:id}).then(res=>{
-          this.newsCategoryTop = res.top
-          this.newsCategoryList = res.news;
-
+      _topNewsCategory(){           //新闻资讯 企业文化 id
+          topNewsCategory().then(res=>{
+              this.topNewsCategoryList = res
+              console.log(res[0].id);
+              this.category_id = res[0].id   //保养资讯
+              this.category_ids = res[1].id //企业文化
+              this.newsCategoryInit(res[0].id)
+              this.newsCategoryInit(res[1].id)
+          })
+      },
+      newsCategoryInit: function(category_id){//新闻资讯
+        newsCategory({category_id:category_id}).then(res=>{
+            // this.newsCategoryTop = res.top
+            // this.newsCategoryList = res.news;
+            if(category_id==3){
+                this.newsCategoryTop = res.top
+                this.newsCategoryList = res.news;
+            }else if(category_id==4){
+                this.newsCategoryTops = res.top
+                this.newsCategoryLists = res.news;
+            }
         })
       },
       shopRecommend: function(){//推荐门店
@@ -340,17 +382,32 @@
         })
       },
       handleClick(tab, event) {//tab切换 //新闻资讯
+        console.log("index="+this.activeName)
 
-        this.newsCategoryInit(this.index)
+        this.newsCategoryInit(this.activeName)
       },
-      checkCarType: function(){
-        
-        this.active = 2
+      _IndexAd(){
+          IndexAd().then(res=>{
+              this.AdList = res[0]
+              this.AdLists = res[1]
+              // console.log(res[0].pic);
+          })
       },
-      close: function(){
-        console.log('选中')
-        this.checked=false
+
+      getCarplate: function(value){
+        this.carplate = value
+      },
+      getCarmodel: function(value){
+        this.carmodule = value
+      },
+      getCarnat: function(data){
+        this.model_id = data.model_id;
+        this.carnat = data.carnat
+      },
+      goNewsDetail: function(id){
+        this.$router.push({path: '/NewsDetail/'+id+"/1"});
       }
+      
     }
   }
 </script>
@@ -372,11 +429,14 @@
       overflow: hidden;
     }
   }
+  .new-activity:hover{
+    cursor: pointer;
+  }
   .main-banner{
     position: relative;
     background: #FEBB2A;
     .main-banner-bg{
-      height: 41px;
+      height: 31px;
       background: $main-color;
       position: absolute;
       width: 100%;
@@ -384,14 +444,18 @@
     .inner-wrap{
       position: relative;
       z-index: 999;
+      max-height: 350px;
     }
     .el-aside{
-      padding-top: 41px;
+      padding-top: 31px;
       background: rgba(0,0,0,.7);
       border: none;
       color: #fff;
-      
-      
+    }
+    .carousel-wrap{
+      position: absolute;
+      width: 100%;
+      top: 31px;
     }
   }
   .asideTitle{
@@ -413,13 +477,28 @@
     margin: 0;
   }
   .el-carousel__item img{
-    width: 80%;
+    width: 100%;
     height: auto;
   }
   .set-main-bg{
     background: #fff;
     padding: 10px 0 20px 0;
     margin-top: 30px;
+  }
+  .baomsg,.newmsg{
+    display: flex;
+    align-items: center;
+  }
+  .baomsg:hover{
+    cursor: pointer;
+    color: #f82501;
+  }
+  .newmsg:hover{
+    cursor: pointer;
+    color: #f82501;
+  }
+  .Advertisement-img{
+    margin: 20px 0 20px 0;
   }
 
   .car-server{
@@ -485,6 +564,7 @@
     .about-us-top{
       .el-main{
         padding-right: 10px;
+        padding-top: 0;
         box-sizing: border-box;
       }
     }
@@ -506,7 +586,6 @@
     text-align: left;
     box-sizing: border-box;
     vertical-align: middle;
-    margin-top: 30px;
     .el-aside{
       text-align: center;
     }
@@ -557,6 +636,9 @@
     border-radius: 6px 6px 0 0;
     box-shadow: 1px 1px 10px #b9b9b9;
   }
+  .recommend-store-wrap .el-col:hover{
+    cursor: pointer;
+  }
   .recommend-store{
     margin-top: 20px;
     padding-left: 10px;
@@ -570,7 +652,9 @@
       }
     }
   }
-  
+  .commond-wrap img{
+    width:100%;
+  }
   .mask{
     position: absolute;
     top: 0;
@@ -623,14 +707,15 @@
           margin-top: 10px;
         }
         .check-car{
-          max-width: 125px;
+          max-width: 180px;
           text-align: left;
           box-sizing: border-box;
           padding: 5px 10px;
           line-height: 20px;
           border: 1px solid #DDDDDD;
+          margin-bottom: 5px;
           span{
-            margin-left: 20px;
+            margin-left: 4px;
           }
         }
         .check-active{
@@ -668,6 +753,10 @@
     height: 30px;
     border: 1px solid #F1825B;
     border-radius: 0;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .main-banner .el-button{
     background: #F82501;
@@ -706,4 +795,9 @@
   }
   
 
+</style>
+<style>
+  .carousel-wrap .el-carousel__container{
+    height: 350px;
+  }
 </style>

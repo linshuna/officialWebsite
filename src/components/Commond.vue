@@ -1,5 +1,5 @@
 <template>
-  <div class="commond-wrap">
+  <div class="commond-wrap" @click="goShopDetail(recommend.id)">
     <img :src="recommend.pic" alt="广告图片" width="250px" height="180px"/>
     <div class="store-container">
       <div class="set-recommend-title border-bottom-1px">
@@ -34,6 +34,9 @@
     methods:{
       openMap: function(long,lat,dist,address){
         this.map(long,lat,dist,address) 
+      },
+      goShopDetail: function(id){
+        this.$router.push({path: '/ServerStore/ServerStoreDetail/'+id})
       }
     }
   }

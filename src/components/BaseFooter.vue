@@ -3,19 +3,33 @@
     <div class="footer">
       <div class="inner-wrap">
         <div class="link">
-          <p class="link-title">
-            <a href="javascript:void(0)">友情链接</a>
-            <a href="javascript:void(0)">快速链接</a>
-          </p>
-          <p class="store-name">
-            <span v-for="item in linkList"><a :href="item.url">{{item.title}}</a></span>
-          </p>
+          <el-tabs v-model="activeName">
+            <el-tab-pane label="友情链接" name="first">
+              <p class="store-name">
+                <span v-for="item in linkList"><a :href="item.url" target="_blank">{{item.title}}</a></span>
+              </p>
+          
+            </el-tab-pane>
+            <el-tab-pane label="快速链接" name="second">
+              <p class="store-name" v-if="provinceList">
+                <span v-for="item in provinceList" @click.stop="checkProvince(item)">{{item.areaName}}</span>
+              </p>
+              <p class="store-name" v-if="cityList">
+                <span v-for="item in cityList" @click.stop="checkCity(item)">{{item.areaName}}</span>
+              </p>
+              <p class="store-name" v-if="distList">
+                <span v-for="item in distList" @click.stop="checkDist(item)">{{item.areaName}}</span>
+              </p>
+            </el-tab-pane>
+          </el-tabs>
+        
+          
         </div>
 
         <!--轮播图-->
         <el-carousel :interval="5000" arrow="always" height="50px" class="footer-carousel">
-          <el-carousel-item v-for="item in 4" :key="item">
-            <h3>8月26日九州快讯专访E店养车, 解密汽车连锁规模发展之秘诀!</h3>
+          <el-carousel-item v-for="item in bottomList" :key="item">
+            <h3>{{item}}</h3>
           </el-carousel-item>
         </el-carousel>
         <el-row :gutter="20" class="server-link">
@@ -72,21 +86,87 @@
   
 </template>
 <script>
-  import { link } from '@/utils/api.js'
+  import { link,bottom,province,city,dist,stopList } from '@/utils/api.js'
   export default {
     data(){
       return {
-        linkList: []
+        linkList: [],
+        activeName: 'first',
+        bottomList: [],
+        provinceList: [],
+        provinceId: '',
+        provinceName: '',
+        cityList: [],
+        cityId: '',
+        cityName:'',
+        distList: [],
+        distId: '',
+        distName: ''
       }
     },
     mounted() {
       this.$nextTick(function(){
+        //快速链接
         link().then(res => {
           this.linkList = res;
           console.log(res)
         })
+        //底部轮播
+        bottom().then(res => {
+          this.bottomList = res;
+        })
+        //初始化省
+        this.initProvince()
       })
     },
+    watch: {
+      provinceId: function(){
+        this.initCity();//显示城市
+      },
+      cityId: function(){
+        this.initDist();//显示区域
+      }
+    },
+    methods:{
+      initProvince: function(){
+        province().then(res => {
+          this.provinceList = res;
+        })
+      },
+      checkProvince: function(item){
+        this.provinceId = item.areaId;
+        this.provinceName = item.areaName
+      },
+      initCity: function(){
+        this.provinceList = []
+        city({areaId: this.provinceId}).then(res => {
+          this.cityList = res
+        })
+      },
+      checkCity: function(item){
+        this.cityId = item.areaId;
+        this.cityName = item.areaName;
+      },
+      initDist: function(){
+        this.cityList = []
+        dist({areaId: this.cityId}).then(res => {
+          this.distList = res
+        })
+
+      },
+      checkDist: function(item){
+        let checkJson = {
+            province: this.provinceName,
+            city: this.cityName,
+            dist: item.areaName,
+            provinceCode: this.provinceId,
+            cityCode: this.cityId,
+            distCode: item.areaId};
+        window.localStorage.setItem('checkedCity',JSON.stringify(checkJson))
+        //页面跳转
+        this.$router.push({path: '/ServerStore/'+item.areaCode})
+      }
+    }
   }
 </script>
 
@@ -158,6 +238,10 @@
       color: #999999;
     }
   }
+  .store-name span:hover{
+    cursor: pointer;
+    color: #F82501;
+  }
   .el-carousel__item{
     h3{
       font-size: 16px;
@@ -178,6 +262,7 @@
     }
     .hot-phone{
       font-size: 20px;
+      color: #F82501;
     }
   }
   .el-carousel__arrow i{
@@ -195,5 +280,22 @@
 }
 .footer-carousel .el-carousel__indicators{
   display: none;
+}
+.link #tab-first{
+    border-right: 1px solid gray;
+    line-height: 20px;
+    height: 20px;
+}
+.link .el-tabs__nav-wrap::after{
+  background-color: transparent;
+}
+.el-tabs__item.is-active{
+  color: #F82501;
+}
+.el-tabs__active-bar{
+  background-color: #F82501;
+}
+.el-tabs__nav .el-tabs__item:hover{
+  color: #F82501;
 }
 </style>

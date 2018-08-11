@@ -1,6 +1,6 @@
 <template>
   <div class="new-activity-wrap">
-    <el-container>
+    <el-container @click.native="goNewsDetail(activityMsg.id)">
       <el-aside width="300px">
         <img :src="activityMsg.pic" alt="广告图片" width="280px" height="140px"/>
       </el-aside>
@@ -12,7 +12,7 @@
         <p class="activityTime">活动时间：{{activityMsg.runtime}}—{{activityMsg.outtime}}</p>
         <div class="time-wrap">
           <h2>{{activityMsg.day}}</h2>
-          <h3>{{activityMsg.month}}月</h3>
+          <h3>{{activityMsg.month}}</h3>
           <h5>{{activityMsg.year}}</h5>
         </div>
       </el-main>
@@ -31,6 +31,11 @@
         date: new Date(this.gainDate).getDate(),
         month: new Date(this.gainDate).getMonth()+1,
         year: new Date(this.gainDate).getFullYear(),
+      }
+    },
+    methods:{
+      goNewsDetail: function(id){
+        this.$router.push({path: '/NewsDetail/'+id+"/7"});
       }
     }
   }
@@ -71,14 +76,22 @@
     box-sizing: border-box;
     h2{
       font-family: PingFangSC-Semibold;
-      font-size: 48px;
+      font-size: 36px;
       letter-spacing: 0;
     }
     h3{
-      font-size: 24px;
+      font-size: 20px;
     }
     h5{
-      font-size: 28px;
+      font-size: 18px;
     }
   }
+</style>
+<style>
+.new-activity-wrap .el-aside img{
+  max-width: 280px;
+  height: 140px;
+  display: inline-block;
+}
+      
 </style>

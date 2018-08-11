@@ -20,7 +20,7 @@
         <el-menu-item index="2-4">紧急救援</el-menu-item>
       </el-submenu>
       <el-menu-item index="3">
-        <router-link to="/ServerStore">服务门店</router-link> </el-menu-item>
+        <router-link to="/ServerStore/0">服务门店</router-link> </el-menu-item>
       <el-submenu index="4">
         <template slot="title">
           <router-link to="/DetailsMaintenance">保养资讯</router-link> 
@@ -33,9 +33,11 @@
         <el-menu-item index="4-4">客户服务</el-menu-item>
       </el-submenu>
       <el-menu-item index="5">
-        <router-link to="/Maintenance">自助保养</router-link>
+        <span @click="baoyang">自助保养</span>
       </el-menu-item>
-      <el-menu-item index="6">关于我们</el-menu-item>
+      <el-menu-item index="6">
+        <router-link to="/Weare">关于我们</router-link>
+      </el-menu-item>
       <el-menu-item index="7">
         <router-link to="/NewActivityPage">最新活动</router-link>  
       </el-menu-item>
@@ -51,25 +53,31 @@
     data(){
       return{}
     },
+    methods: {
+      baoyang: function(){
+        alert("请选择车牌类型");
+        return false;
+      }
+    }
 
   }
 </script>
 <style lang="scss" scoped>
-  .banner{
-    width: 100%;
-    height: 41px;
-    background: #F82501;
-  }
-  .el-menu-item{
-    height: 41px;
-    line-height: 41px;
-  }
+  
  
 </style>
 <style>
+  .banner .el-menu--horizontal>.el-menu-item{
+    height: 31px;
+    line-height: 31px;
+  }
   .banner .el-menu--horizontal>.el-submenu .el-submenu__title{
-    height: 41px;
-    line-height: 41px;
+    height: 31px;
+    line-height: 31px;
+  }
+  .banner .el-menu--horizontal{
+    border-bottom: none;
+    margin: 0 auto!important;
   }
   .el-submenu .el-menu-item{
     background-color: rgba(0,0,0,.3);

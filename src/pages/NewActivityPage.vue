@@ -1,35 +1,23 @@
 <template>
   <div>
-    <el-container class="main">
-      <el-header height="auto">
-        <base-top-header></base-top-header>
-      </el-header>
-      <base-header activeIndex='7'></base-header>
-    </el-container>
+    
     <div class="new-wrap">
       <div class="inner-wrap">
-        <!--<template v-for="item in activityLatestList">
-          <new-activity :activityMsg="activityLatestList"></new-activity>
-        </template>-->
-        <new-activity :activityMsg="activityLatestList"></new-activity>
+        <!-- @click.stop="goNews(item.id,item.state,item.url)"-->
+        <div v-for="item in activityLatestList">
+          <new-activity :activityMsg="item"></new-activity>
+        </div>
       </div>
       
     </div>
     
-    <base-footer></base-footer>
   </div>
 </template>
 <script>
-   //顶部
-  import BaseTopHeader from '@/components/BaseTopHeader'
-  //头部
-  import BaseHeader from '@/components/BaseHeader'
   //最新活动组件
   import NewActivity from "@/components/NewActivity"
-  //底部
-  import BaseFooter from "@/components/BaseFooter"
    import { 
-    activityLatest,//最新活动
+    activityIndex,//最新活动
   } from '@/utils/api.js'
   export default {
     data(){
@@ -39,19 +27,23 @@
       }
     },
     components:{
-      'base-top-header': BaseTopHeader,
-      'base-footer':BaseFooter,
       'new-activity': NewActivity,
-      'base-header':BaseHeader
     },
     mounted() {
       this.init()
     },
     methods:{
       init: function(){
-        activityLatest().then(res => {
-          this.activityLatestList = res;
+        activityIndex().then(res => { 
+          this.activityLatestList = res.list;
         })
+      },
+      goNews: function(id,state,url){
+        if(state==1){
+          this.$router.push({path: '/NewActivityPageDetail/'+id})
+        }else{
+          window.location.href = url
+        }
       }
     }
   }

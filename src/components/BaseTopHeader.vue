@@ -5,7 +5,7 @@
       <img src="../assets/images/LOGO.png" alt="logo图片" width="200px"/>
       <div class="base-top-right">
         <div class="search-wrap">
-          <el-select
+          <!--<el-select
             v-model="keyword"
             multiple
             filterable
@@ -15,14 +15,10 @@
             :remote-method="remoteMethod"
             :loading="loading"
             class="el-search-left">
-            <el-option
-              v-for="item in options4"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-          <el-button type="primary" class="search" icon="el-icon-search"></el-button>
+            
+          </el-select>-->
+          <input v-model="keyword" placeholder="请输入关键词" class="el-search-left" @keyup.enter="searchCon"/>
+          <el-button type="primary" class="search" icon="el-icon-search" @click="searchCon"></el-button>
         
         </div>
         
@@ -42,11 +38,15 @@
 </template>
 
 <script>
+  import {search} from "@/utils/api.js"
   export default {
+    props:{
+      con: {type: String}
+    },
     data(){
       return{
         options4: [],
-        keyword: [],
+        keyword:'',
         list: [],
         loading: false,
         states: ["Alabama", "Alaska", "Arizona",
@@ -68,10 +68,27 @@
         "Wyoming"],
       }
     },
+    created() {
+
+    },
     mounted() {
+      this.keyword = this.con?this.con: '';
+      
       this.list = this.states.map(item => {
         return { value: item, label: item };
       });
+
+    },
+    watch:{
+      keyword: {
+        handler(newValue, oldValue) {
+　　　　　　 this.$emit('update:con',this.keyword)
+　　　　 },
+        deep: true
+      },
+      con: function(newVal,oldVal){
+        this.keyword = newVal
+      }
     },
     methods:{
       remoteMethod(query) {
@@ -88,6 +105,10 @@
           this.options4 = [];
         }
       },
+      searchCon: function(){
+        let con = this.keyword?this.keyword:-1
+        this.$router.push({path:'/Search/'+con})
+      }
     }
   }
 </script>
@@ -97,6 +118,16 @@
   }
   .el-header{
     position: relative;
+  }
+  .el-search-left{
+    border: 1px solid #F82501;
+    height: 40px;
+    line-height: 40px;
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 10px;
+    width:200px;
+    box-sizing: border-box;
   }
   .base-top-header{
     background: #fff;
@@ -132,6 +163,7 @@
     bottom: 10px;
     .search-wrap{
       font-size: 0;
+      width:240px;
       .el-select{
         vertical-align: middle;
       }
@@ -142,6 +174,8 @@
         display: inline-block;
         vertical-align: middle;
         position: relative;
+        border-radius: 0;
+        border: none;
       }  
     }    
   }
@@ -152,6 +186,7 @@
   .base-top-right .el-select .el-input__inner{
     border: 1px solid #F82501;
     border-radius: 0;
+    width: 200px;
   }
   .search{
     border: none;

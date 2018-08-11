@@ -9,6 +9,7 @@ const filters = {
     }
     // Math.round(item.distance)<1000?Math.round(item.distance)+'m':(Math.round(item.distance)/1000).toFixed(2)+'km'
   },
+  
   serverTypeFilter: function (value) {
     console.log(value)
     let type = '';
@@ -33,6 +34,11 @@ const filters = {
       .replace(/&gt;/g, ">")
       .replace(/&quot;/g, "\"")
       .replace(/&#39;/g, "\'");  
+  },
+  datasFilter: function (value) {
+    console.log("数据："+value)
+    if (!value) return 0;
+    else return (value - 0).toFixed(2);
   },
 }
 export default filters;

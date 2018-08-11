@@ -36,3 +36,8 @@ description().then(res=>{
   descriptionMeta.content = res.description
 })
 
+import filters from './utils/filters.js'
+//全局定义过滤器
+for (let key in filters) { 
+  Vue.filter(key,filters[key])
+}

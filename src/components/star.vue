@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="stars">
         <el-rate
                 v-model="stars"
                 disabled
@@ -21,3 +21,8 @@
         props:['stars']
     }
 </script>
+<style>
+  .stars{
+    display: inline-block;
+  }
+</style>

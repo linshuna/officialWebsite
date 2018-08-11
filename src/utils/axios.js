@@ -12,18 +12,20 @@ service.get = (url, data = {}) => {
           resolve(response.data.data);
           return
         }
-        this.$message({
-          message: response.data.message,
-          type: 'warning'
-        });
+        // alert({
+        //   message: response.data.message,
+        //   type: 'warning'
+        // });
+        alert(response.data.message)
         resolve(response.data); 
       
         
       }, err => {
-        this.$message({
-          message: '网络出错,请稍后重试',
-          type: 'warning'
-        });
+        // alert({
+        //   message: '网络出错,请稍后重试',
+        //   type: 'warning'
+        // });
+        alert('网络出错,请稍后重试')
         reject(err)
       })
   })
@@ -38,15 +40,17 @@ service.post = (url, data = {}, config = {}) => {
           return
         }
         resolve(response.data);
-        this.$message({
-          message: response.data.message,
-          type: 'warning'
-        });
+        // alert({
+        //   message: response.data.message,
+        //   type: 'warning'
+        // });
+        alert(response.data.message)
       }, err => {
-        this.$message({
-          message: '网络出错,请稍后重试',
-          type: 'warning'
-        });
+        // alert({
+        //   message: '网络出错,请稍后重试',
+        //   type: 'warning'
+        // });
+        alert('网络出错,请稍后重试')
         reject(err)
       })
   })

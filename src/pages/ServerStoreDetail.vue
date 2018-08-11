@@ -1,26 +1,26 @@
 <template>
   <div>
-    <el-container class="main">
-      <el-header height="auto">
-        <base-top-header></base-top-header>
-      </el-header>
-    </el-container>
-    <base-header  activeIndex='3'></base-header>
+
     <div class="inner-wrap">
       <div class="server-store-wrap">
         <el-container>
           <el-main>
             <el-container class="store-detail-wrap">
               <el-aside width="200px">
-                <img alt="图片" src="../assets/images/大新闻图.png" width="200px" height="200px"/>
+                <!--<img alt="图片" src="../assets/images/大新闻图.png" width="200px" height="200px"/>-->
+                <el-carousel height="200px">
+                  <el-carousel-item v-for="item in shopImg" :key="item">
+                    <img alt="图片" :src="item" width="200px" height="200px"/>
+                  </el-carousel-item>
+                </el-carousel>
               </el-aside>
               <el-main>
-                <h1 class="border-bottom-1px">越秀洗车房</h1>
+                <h1 class="border-bottom-1px">{{shopMsg.name}}</h1>
                 <div class="store-msg">
-                  <p>营业时间：8:00-23:00</p>
-                  <p>服务电话：1380013800</p>
-                  <p>门店地址：越秀区</p>
-                  <div class="btn-wrap">
+                  <p>营业时间：{{shopMsg.storeTime}}</p>
+                  <p>服务电话：{{shopMsg.phone}}</p>
+                  <p class="address">门店地址：{{shopMsg.province}}{{shopMsg.city}}{{shopMsg.dist}}{{shopMsg.address}}</p>
+                  <div class="btn-wrap" @click.stop="goShopDetail(shopMsg.id)">
                     <button>预约</button>
                   </div>
                 </div>
@@ -36,8 +36,8 @@
       <div class="store-detail-main">
         <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
           <el-tab-pane label="门店介绍" name="first">
-            <div class="store-detail">
-              <ul class="store-detail-list">
+            <div class="store-detail" v-html="content">
+              <!--<ul class="store-detail-list">
                 <li>
                   <p class="store-detail-title">
                     <img src="../assets/images/checkCarIcon.png"/>
@@ -70,7 +70,7 @@
                     </el-col>
                   </el-row>
                 </li>
-              </ul>
+              </ul>-->
             </div>
           
           </el-tab-pane>
@@ -78,54 +78,60 @@
             <div class="total-elvate">
               <p class="elvate-title">综合评价</p>
               <div>
-                <span class="elvate-big-font">4.9</span>
+                <span class="elvate-big-font">{{eval.all | datasFilter}}</span>
               </div>
               <div class="store-elvate-msg">
                 <span class="elvate-small-font">
-                  <span class="red">2000</span>人评价</span>
+                  <span class="red">{{eval.count}}</span>人评价</span>
                 <ul class="store-elvate">
                   <li>
                     <img src="../assets/images/态度.png"/>
-                    <span>门店环境：</span>
+                    <span>门店环境：{{eval.around | datasFilter}}</span>
                   </li>
                   <li>
                     <img src="../assets/images/态度.png"/>
-                    <span>服务态度：</span>
+                    <span>服务态度：{{eval.attitude | datasFilter}}</span>
                   </li>
                   <li>
                     <img src="../assets/images/态度.png"/>
-                    <span>服务质量：</span>
+                    <span>服务质量：{{eval.service | datasFilter}}</span>
                   </li>
                   <li>
                     <img src="../assets/images/态度.png"/>
-                    <span>技术能力：</span>
+                    <span>技术娴熟：{{eval.tech | datasFilter}}</span>
                   </li>
                   <li>
-                    <img src="../assets/images/态度.png"/>
-                    <span>价格实惠：</span>
+                    <img src="../assets/images/态度.png"/> 
+                    <span>价格实惠：{{eval.price | datasFilter}}</span>
                   </li>  
                 </ul>
-              </div>
-              
+              </div>              
             </div>
-            <ul class="elvate-list">
+            <template v-if="shopevaluateList&&shopevaluateList.length>0">
+              <ul class="elvate-list">
                 <li v-for="item in shopevaluateList">
                   <div class="elvate-nav">
                     <div class="nav_left">
                       <img :src="item.headimg" alt="服务图片">
                     </div>
                     <div class="nav_center">
-                      <p>{{item.uname}} - {{item.carNo}}</p>
+                      <p>{{item.buyname}} - {{item.buycarNo}}</p>
                       <div class="nav_center_center">
                         <span class="setElvate">综合评价：</span>
                         <el-rate
-                          v-model="item.evaluatenum"
+                          v-model="(item.evaluateShow-0).toFixed(2)"
                           disabled
                           show-score
-                          text-color="#ff9900"
-                          score-template="{value}">
+                          text-color="#ff9900" score-template="{value}">
                         </el-rate>
                       </div>
+                      <p class="elvate-wrap">
+                        <span>门店环境：{{item.aroundscore}}</span>
+                        <span>服务态度：{{item.attitudescore}}</span>
+                        <span>服务质量：{{item.servicescore}}</span>
+                        <span>技术娴熟：{{item.techscore}}</span>
+                        <span>价格实惠：{{item.pricescore}}</span>
+                      </p>
                       <p class="section_top_left_ptop">{{item.province}}{{item.city}}{{item.dist}}{{item.address}}</p>
                     </div>
                     <div class="nav_bottom">{{item.message | noAssessTip}}</div>
@@ -133,62 +139,96 @@
                   
                 </li>
               </ul>
+              <el-pagination
+                background
+                layout="prev, pager, next"
+                :total="count"
+                :current-page.sync="currentPage">
+              </el-pagination> 
+            </template>
+            <template v-else>
+              <p style="font-size: 14px;padding-bottom: 10px;margin-top: 20px;">该门店暂无评价</p>
+            </template>
+            
           </el-tab-pane>
         </el-tabs>
       </div>
     </div>
     
-    <base-footer></base-footer>
   </div>
 </template>
 <script>
-  //顶部
-  import BaseTopHeader from '@/components/BaseTopHeader'
-  //头部
-  import BaseHeader from '@/components/BaseHeader'
-  //底部
-  import BaseFooter from "@/components/BaseFooter"
   //评价
   import Commond from '@/components/Commond'
+  import {stopDetail,evaluate} from '@/utils/api.js'
   export default {
     data(){
       return {
+        shopId: '',
         activeName: 'first',
-        shopevaluateList: [{
-          addtime:"2018-08-01",
-          carNo:"京DY***7",
-          evaluatenum:"5.0",
-          headimg:"http://w.hhqccar.cn/Public/App/head/1532415214_659.jpg",
-          message:"范德萨发",
-          uname:"罗"
-        }]
+        shopMsg: {},//门店详情
+        shopImg: [],//轮播图
+        content: '',//门店介绍
+        shopevaluateList: [],//商品评价
+        eval: {},
+        currentPage: 1,
+        count: 1,
+        latitude: '',
+        longitude: ''
       }
     },
-    components:{
-      'base-top-header': BaseTopHeader,
-      'base-footer':BaseFooter,
-      'base-header':BaseHeader
+    created() {
+      this.shopId = this.$route.params.shopId;
     },
-    mounted() {
-      this.$nextTick(()=>{
+    watch:{
+      currentPage: function(newVal,oldVal){
+        this.initEvaluate()
+      },
+      latitude:function(newVal,oldVal){
         let container = this.$refs.container
-        var center = new qq.maps.LatLng(38.81987,115.49425);
+        console.log(this.latitude)
+        var center = new qq.maps.LatLng(this.latitude,this.longitude);
         var map = new qq.maps.Map(container,{
             center: center,
-            zoom: 8
+            zoom: 13
         });
 
         var marker = new qq.maps.Marker({
-               map:map,
-               position: center
-           });     
-
-
+            map:map,
+            position: center
+        });   
+      }
+    },
+    mounted() {
+      this.$nextTick(()=>{
+         
+        //门店详情   
+        stopDetail({shop_id: this.shopId}).then(res => {
+          this.shopMsg = res;
+          this.shopImg = res.images;//轮播图
+          this.content = this.$options.filters.unescape(res.content);//获取门店介绍
+          this.eval = res.eval;//获取评价数
+          //获取经纬度
+          this.latitude = res.latitude;
+          this.longitude = res.longitude;
+        })
+        //门店评价
+        this.initEvaluate()
+         
       })
     },
     methods: {
       handleClick: function(){
 
+      },
+      initEvaluate: function(){
+        evaluate({id: this.shopId,page: this.currentPage}).then(res => {
+          this.count = res.page.count*10;
+          this.shopevaluateList = res.list;
+        })
+      },
+      goShopDetail: function(id){
+        this.$router.push({path: '/ServerStore/ServerStoreDetail/Appointments/'+id})
       }
     }
   }
@@ -230,6 +270,12 @@
     }
     .store-msg{
       margin-top: 10px;
+      .address{
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
       .btn-wrap{
         margin-top: 20px;
         button{
@@ -385,6 +431,12 @@
   .nav_center_center{
     display: flex;
     align-items: center;
+  }
+  .elvate-wrap{
+    span{
+      padding-right: 10px;
+      color: gray;
+    }
   }
 
   .nav_center_left p:first-child,
